@@ -7,8 +7,14 @@ public class Player : MonoBehaviour
 
     public float speed;
     public float jumpForce;
+    private float movement;
     private bool isJumping;
     private bool doubleJump;
+    private bool isShooting;
+
+    public GameObject arrow;
+    public Transform bow;
+
     private Rigidbody2D rig;
     private Animator anim;
 
@@ -22,21 +28,25 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Move();
         Jump();
+        Bow();
+    }
+
+    void FixedUpdate(){
+        Move();
     }
 
     void Move(){
         //GetAxis right/left, A/D and joystick
         //float 0 to 1
         //Edit/Project Settings/Input Manager
-        float movement = Input.GetAxis("Horizontal");
+        movement = Input.GetAxis("Horizontal");
         
         rig.velocity = new Vector2(movement * speed, rig.velocity.y);
 
         //Right
         if(movement > 0){
-            if(isJumping == false){
+            if(isJumping == false && isShooting == false){
                 anim.SetInteger("transition",1);
             }
             transform.eulerAngles = new Vector3(0f,0f,0f);
@@ -44,14 +54,14 @@ public class Player : MonoBehaviour
 
         //Left
         if(movement < 0){
-            if(isJumping == false){
+            if(isJumping == false && isShooting == false){
                 anim.SetInteger("transition",1);
             }
             transform.eulerAngles = new Vector3(0f,180f,0f);
         }
 
         //Idlle
-        if(movement == 0 && isJumping == false){
+        if(movement == 0 && isJumping == false && isShooting == false){
             anim.SetInteger("transition",0);
         }
     }
@@ -71,6 +81,27 @@ public class Player : MonoBehaviour
                     doubleJump = false;
                 }
             }
+        }
+    }
+
+    void Bow(){
+        StartCoroutine("Shoot");
+    }
+
+    IEnumerator Shoot(){
+        if(Input.GetKeyDown(KeyCode.E)){
+            isShooting = true;
+            anim.SetInteger("transition",3);
+            GameObject Arrow = Instantiate(arrow,bow.position, bow.rotation);
+            if(this.transform.rotation.y == 0f){
+                Arrow.GetComponent<Arrow>().isRight = true;
+            }
+            if(transform.rotation.y == 180f){
+                Arrow.GetComponent<Arrow>().isRight = false;
+            }
+            yield return new WaitForSeconds(0.2f);
+            anim.SetInteger("transition",0);
+            isShooting = false;
         }
     }
 
