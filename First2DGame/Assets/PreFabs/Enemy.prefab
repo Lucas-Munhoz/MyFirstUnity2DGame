@@ -13,10 +13,10 @@ GameObject:
   - component: {fileID: 2870324788648511759}
   - component: {fileID: 2870324788648511752}
   - component: {fileID: 2870324788648511753}
-  - component: {fileID: 2870324788648511754}
+  - component: {fileID: 847833985953623136}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -145,7 +145,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
---- !u!114 &2870324788648511754
+--- !u!114 &847833985953623136
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -154,7 +154,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2870324788648511755}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 922bbdb7f2101224882f6f65e42ec4d9, type: 3}
+  m_Script: {fileID: 11500000, guid: d41206431e4fea94fa9ffe5ed0e1460f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkTime: 3
+  walkTime: 2

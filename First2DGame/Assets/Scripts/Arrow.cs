@@ -7,6 +7,7 @@ public class Arrow : MonoBehaviour
     private Rigidbody2D rig;
     private float speed = 10f;
     public bool isRight;
+    public int damage;
 
     // Start is called before the first frame update
     void Start()
@@ -25,5 +26,12 @@ public class Arrow : MonoBehaviour
             rig.velocity = Vector2.left * speed;
         }
         
+    }
+
+    void OnTriggerEnter2D(Collider2D col){
+        if(col.gameObject.tag == "enemy"){
+            col.GetComponent<Enemy>().Damage(damage);
+            Destroy(gameObject);
+        }
     }
 }
