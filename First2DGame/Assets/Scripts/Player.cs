@@ -100,8 +100,8 @@ public class Player : MonoBehaviour
                 Arrow.GetComponent<Arrow>().isRight = false;
             }
             yield return new WaitForSeconds(0.2f);
-            anim.SetInteger("transition",0);
             isShooting = false;
+            anim.SetInteger("transition",0);
         }
     }
 
