@@ -9,17 +9,11 @@ public class GameController : MonoBehaviour
     public Text healthTxt;
     public static GameController instance;
 
-    // Start is called before the first frame update
-    void Start()
+    //Awake is called first than Start(), VERY USEFUL
+    void Awake()
     {
         //Like a constructor
         instance = this;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void updateHeartCount(int value){

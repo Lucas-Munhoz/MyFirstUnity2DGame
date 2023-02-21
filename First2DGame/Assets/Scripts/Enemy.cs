@@ -5,6 +5,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public float walkTime;
+    public int damage = 1;
 
     private Rigidbody2D rig;
     private Animator anim;
@@ -43,11 +44,28 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    void OnCollisionStay2D(){
-        rig.gravityScale = 1f;
+    void OnCollisionStay2D(Collision2D col){
+        if(col.gameObject.tag == "Ground"){
+            rig.gravityScale = 1f;
+        }
+        
     }
-    void OnCollisionExit2D(){
-        rig.gravityScale = 21f;
+    void OnCollisionExit2D(Collision2D col){
+        if(col.gameObject.tag == "Ground"){
+            rig.gravityScale = 20f;
+        }
+    }
+
+    void OnCollisionEnter2D(Collision2D col){
+        if(col.gameObject.tag == "Player"){
+            col.gameObject.GetComponent<Player>().Damage(damage);
+            if(col.gameObject.GetComponent<Player>().transform.rotation.y == 0f){
+                rig.AddForce(Vector2.right * 3000, ForceMode2D.Force);
+            }
+            if(col.gameObject.GetComponent<Player>().transform.rotation.y == 180f){
+                rig.AddForce(Vector2.left * 3000, ForceMode2D.Force);
+            }
+        }
     }
 
     public void Damage(int dmg){

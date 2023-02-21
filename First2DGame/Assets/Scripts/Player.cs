@@ -98,7 +98,7 @@ public class Player : MonoBehaviour
             if(this.transform.rotation.y == 0f){
                 Arrow.GetComponent<Arrow>().isRight = true;
             }
-            if(transform.rotation.y == 180f){
+            if(this.transform.rotation.y == 180f){
                 Arrow.GetComponent<Arrow>().isRight = false;
             }
             yield return new WaitForSeconds(0.2f);
@@ -116,7 +116,15 @@ public class Player : MonoBehaviour
     public void Damage(int dmg){
         health -= dmg;
         GameController.instance.updateHeartCount(health);
-        
+        anim.SetTrigger("hit");
+
+        if(this.transform.rotation.y == 0f){
+            rig.AddForce(Vector2.left * 3000, ForceMode2D.Force);
+        }
+        if(this.transform.rotation.y == 180f){
+            rig.AddForce(Vector2.right * 3000, ForceMode2D.Force);
+        }
+
         if(health <= 0){
             //Game Over
         }
