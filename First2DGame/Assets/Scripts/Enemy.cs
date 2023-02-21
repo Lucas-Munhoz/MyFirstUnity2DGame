@@ -62,7 +62,7 @@ public class Enemy : MonoBehaviour
             if(col.gameObject.GetComponent<Player>().transform.rotation.y == 0f){
                 rig.AddForce(Vector2.right * 3000, ForceMode2D.Force);
             }
-            if(col.gameObject.GetComponent<Player>().transform.rotation.y == 180f){
+            else{
                 rig.AddForce(Vector2.left * 3000, ForceMode2D.Force);
             }
         }

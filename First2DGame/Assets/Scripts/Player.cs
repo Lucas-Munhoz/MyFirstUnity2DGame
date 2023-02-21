@@ -98,7 +98,7 @@ public class Player : MonoBehaviour
             if(this.transform.rotation.y == 0f){
                 Arrow.GetComponent<Arrow>().isRight = true;
             }
-            if(this.transform.rotation.y == 180f){
+            else{
                 Arrow.GetComponent<Arrow>().isRight = false;
             }
             yield return new WaitForSeconds(0.2f);
@@ -121,7 +121,7 @@ public class Player : MonoBehaviour
         if(this.transform.rotation.y == 0f){
             rig.AddForce(Vector2.left * 3000, ForceMode2D.Force);
         }
-        if(this.transform.rotation.y == 180f){
+        else{
             rig.AddForce(Vector2.right * 3000, ForceMode2D.Force);
         }
 
