@@ -7,6 +7,10 @@ public class GameController : MonoBehaviour
 {
 
     public Text healthTxt;
+    public Text coinsText;
+
+    private int coins;
+
     public static GameController instance;
 
     //Awake is called first than Start(), VERY USEFUL
@@ -18,5 +22,10 @@ public class GameController : MonoBehaviour
 
     public void updateHeartCount(int value){
         healthTxt.text = "x " + value.ToString();
+    }
+
+    public void updateCoinsCount(int value){
+        coins += value;
+        coinsText.text = coins.ToString();
     }
 }
