@@ -129,4 +129,9 @@ public class Player : MonoBehaviour
             //Game Over
         }
     }
+
+    public void Healing(int healingValue){
+        health += healingValue;
+        GameController.instance.updateHeartCount(health);
+    }
 }
