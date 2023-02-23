@@ -2232,7 +2232,7 @@ GameObject:
   m_Component:
   - component: {fileID: 628884368}
   m_Layer: 5
-  m_Name: Score
+  m_Name: Coin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8092,9 +8092,9 @@ Transform:
   - {fileID: 378815325}
   - {fileID: 116268001}
   - {fileID: 298233863}
+  - {fileID: 1502201561}
   - {fileID: 39812541}
   - {fileID: 1908157140}
-  - {fileID: 1502201561}
   - {fileID: 970019843}
   - {fileID: 1524448791}
   - {fileID: 875788048}
@@ -8259,7 +8259,7 @@ GameObject:
   - component: {fileID: 1923710311}
   - component: {fileID: 1923710310}
   m_Layer: 5
-  m_Name: score_text
+  m_Name: coin_text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
