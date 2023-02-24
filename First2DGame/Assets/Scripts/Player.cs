@@ -111,6 +111,10 @@ public class Player : MonoBehaviour
         if(collision.gameObject.layer == 8){
             isJumping = false;
         }
+
+        if(collision.gameObject.tag == "spike"){
+            Damage(1);
+        }
     }
 
     public void Damage(int dmg){
@@ -126,7 +130,7 @@ public class Player : MonoBehaviour
         }
 
         if(health <= 0){
-            //Game Over
+            GameController.instance.GameOver();
         }
     }
 

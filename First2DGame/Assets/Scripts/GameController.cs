@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class GameController : MonoBehaviour
 
     public static GameController instance;
     public GameObject pauseObj;
+    public GameObject gameOverObj;
 
     //Awake is called first than Start(), VERY USEFUL
     void Awake()
@@ -53,6 +55,20 @@ public class GameController : MonoBehaviour
         }else{
             Time.timeScale = 1f;
         }
-        
+    }
+
+    public void GameOver(){
+        gameOverObj.SetActive(true);
+        Time.timeScale = 0f;
+    }
+
+    public void Restart(){
+        SceneManager.LoadScene(1);
+        Time.timeScale = 1f;
+    }
+
+    public void ReturnMainMenu(){
+        SceneManager.LoadScene(0);
+        Time.timeScale = 1f;
     }
 }
