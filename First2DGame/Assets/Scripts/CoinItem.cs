@@ -9,7 +9,7 @@ public class CoinItem : MonoBehaviour
     void OnTriggerEnter2D(Collider2D col){
         if(col.gameObject.tag == "Player"){
             Destroy(gameObject);
-            GameController.instance.updateCoinsCount(coinValue);
+            GameController.instance.UpdateCoinsCount(coinValue);
         }
     }
 }

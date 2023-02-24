@@ -24,7 +24,7 @@ public class Player : MonoBehaviour
     {
         rig = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-        GameController.instance.updateHeartCount(health);
+        GameController.instance.UpdateHeartCount(health);
     }
 
     // Update is called once per frame
@@ -115,7 +115,7 @@ public class Player : MonoBehaviour
 
     public void Damage(int dmg){
         health -= dmg;
-        GameController.instance.updateHeartCount(health);
+        GameController.instance.UpdateHeartCount(health);
         anim.SetTrigger("hit");
 
         if(this.transform.rotation.y == 0f){
@@ -132,6 +132,6 @@ public class Player : MonoBehaviour
 
     public void Healing(int healingValue){
         health += healingValue;
-        GameController.instance.updateHeartCount(health);
+        GameController.instance.UpdateHeartCount(health);
     }
 }

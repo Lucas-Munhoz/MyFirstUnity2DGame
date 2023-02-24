@@ -10,10 +10,12 @@ public class GameController : MonoBehaviour
     public Text coinsText;
 
     private int coins;
-
     private int totalCoins;
 
+    private bool isPaused;
+
     public static GameController instance;
+    public GameObject pauseObj;
 
     //Awake is called first than Start(), VERY USEFUL
     void Awake()
@@ -26,14 +28,31 @@ public class GameController : MonoBehaviour
         totalCoins = PlayerPrefs.GetInt("score");
     }
 
-    public void updateHeartCount(int value){
+    void Update(){
+        if(Input.GetKeyDown(KeyCode.Escape)){
+            PauseGame();
+        }
+    }
+
+    public void UpdateHeartCount(int value){
         healthTxt.text = "x " + value.ToString();
     }
 
-    public void updateCoinsCount(int value){
+    public void UpdateCoinsCount(int value){
         coins += value;
         coinsText.text = coins.ToString();
 
         PlayerPrefs.SetInt("score",coins + totalCoins);
+    }
+
+    public void PauseGame(){
+        isPaused = !isPaused;
+        pauseObj.SetActive(isPaused);
+        if(isPaused){
+            Time.timeScale = 0f;
+        }else{
+            Time.timeScale = 1f;
+        }
+        
     }
 }
