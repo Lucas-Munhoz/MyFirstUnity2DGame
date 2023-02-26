@@ -8,11 +8,20 @@ public class Player : MonoBehaviour
     private int health = 3;
     public float speed;
     public float jumpForce;
-    private float movement;
+
+    public bool touchJump;
+    public bool touchShoot;
+    public bool touchDash;
+
     private bool isJumping;
     private bool doubleJump;
     private bool isDashing;
+    private bool canDash;
     private bool isShooting;
+ 
+
+    public float movement;
+    public bool isMobile;
 
     public GameObject arrow;
     public Transform bow;
@@ -41,24 +50,27 @@ public class Player : MonoBehaviour
     }
 
     void Move(){
-        //GetAxis right/left, A/D and joystick
-        //float 0 to 1
-        //Edit/Project Settings/Input Manager
-        movement = Input.GetAxis("Horizontal");
+
+        if(isMobile == false){
+            //GetAxis right/left, A/D and joystick
+            //float 0 to 1
+            //Edit/Project Settings/Input Manager
+            movement = Input.GetAxis("Horizontal");
+        }
         
         rig.velocity = new Vector2(movement * speed, rig.velocity.y);
 
         //Right
-        if(movement > 0){
-            if(isJumping == false && isShooting == false && isDashing == false){
+        if(movement > 0 && isDashing == false){
+            if(isJumping == false && isShooting == false){
                 anim.SetInteger("transition",1);
             }
             transform.eulerAngles = new Vector3(0f,0f,0f);
         }
 
         //Left
-        if(movement < 0){
-            if(isJumping == false && isShooting == false && isDashing == false){
+        if(movement < 0 && isDashing == false){
+            if(isJumping == false && isShooting == false){
                 anim.SetInteger("transition",1);
             }
             transform.eulerAngles = new Vector3(0f,180f,0f);
@@ -71,7 +83,7 @@ public class Player : MonoBehaviour
     }
 
     void Jump(){
-        if(Input.GetButtonDown("Jump")){
+        if(Input.GetButtonDown("Jump") || touchJump == true){
             if(isJumping == false){
                 anim.SetInteger("transition",2);
                 rig.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
@@ -85,19 +97,21 @@ public class Player : MonoBehaviour
                     doubleJump = false;
                 }
             }
+            touchJump = false;
         }
     }
 
-    void Dash(){
+    public void Dash(){
         StartCoroutine("DashCoroutine");
     }
 
-    void Bow(){
+    public void Bow(){
         StartCoroutine("Shoot");
     }
 
     IEnumerator Shoot(){
-        if(Input.GetKeyDown(KeyCode.E)){
+        if(Input.GetKeyDown(KeyCode.E) || touchShoot == true){
+            touchShoot = false;
             isShooting = true;
             anim.SetInteger("transition",3);
             GameObject Arrow = Instantiate(arrow,bow.position, bow.rotation);
@@ -114,7 +128,9 @@ public class Player : MonoBehaviour
     }
 
     IEnumerator DashCoroutine(){
-        if(Input.GetKeyDown(KeyCode.LeftShift) && isDashing == false){
+        if((Input.GetKeyDown(KeyCode.LeftShift) || touchDash == true) && isDashing == false && canDash == true){
+            touchDash = false;
+            canDash = false;
             isDashing = true;
             anim.SetInteger("transition",4);
             if(this.transform.rotation.y == 0f){
@@ -123,6 +139,7 @@ public class Player : MonoBehaviour
                 rig.AddForce(Vector2.left * 5000, ForceMode2D.Force);
             }
             yield return new WaitForSeconds(0.35f);
+            isDashing = false;
             anim.SetInteger("transition",0);
         }
     }
@@ -130,7 +147,7 @@ public class Player : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision){
         if(collision.gameObject.layer == 8){
             isJumping = false;
-            isDashing = false;
+            canDash = true;
         }
 
         if(collision.gameObject.tag == "spike"){
