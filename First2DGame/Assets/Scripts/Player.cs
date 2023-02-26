@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     private float movement;
     private bool isJumping;
     private bool doubleJump;
+    private bool isDashing;
     private bool isShooting;
 
     public GameObject arrow;
@@ -31,6 +32,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         Jump();
+        Dash();
         Bow();
     }
 
@@ -48,7 +50,7 @@ public class Player : MonoBehaviour
 
         //Right
         if(movement > 0){
-            if(isJumping == false && isShooting == false){
+            if(isJumping == false && isShooting == false && isDashing == false){
                 anim.SetInteger("transition",1);
             }
             transform.eulerAngles = new Vector3(0f,0f,0f);
@@ -56,14 +58,14 @@ public class Player : MonoBehaviour
 
         //Left
         if(movement < 0){
-            if(isJumping == false && isShooting == false){
+            if(isJumping == false && isShooting == false && isDashing == false){
                 anim.SetInteger("transition",1);
             }
             transform.eulerAngles = new Vector3(0f,180f,0f);
         }
 
         //Idlle
-        if(movement == 0 && isJumping == false && isShooting == false){
+        if(movement == 0 && isJumping == false && isShooting == false && isDashing == false){
             anim.SetInteger("transition",0);
         }
     }
@@ -84,6 +86,10 @@ public class Player : MonoBehaviour
                 }
             }
         }
+    }
+
+    void Dash(){
+        StartCoroutine("DashCoroutine");
     }
 
     void Bow(){
@@ -107,9 +113,24 @@ public class Player : MonoBehaviour
         }
     }
 
+    IEnumerator DashCoroutine(){
+        if(Input.GetKeyDown(KeyCode.LeftShift) && isDashing == false){
+            isDashing = true;
+            anim.SetInteger("transition",4);
+            if(this.transform.rotation.y == 0f){
+                rig.AddForce(Vector2.right * 5000, ForceMode2D.Force);
+            }else{
+                rig.AddForce(Vector2.left * 5000, ForceMode2D.Force);
+            }
+            yield return new WaitForSeconds(0.35f);
+            anim.SetInteger("transition",0);
+        }
+    }
+
     void OnCollisionEnter2D(Collision2D collision){
         if(collision.gameObject.layer == 8){
             isJumping = false;
+            isDashing = false;
         }
 
         if(collision.gameObject.tag == "spike"){
