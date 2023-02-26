@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     private bool isJumping;
     private bool doubleJump;
     private bool isDashing;
+    private bool canDash;
     private bool isShooting;
 
     public GameObject arrow;
@@ -114,8 +115,9 @@ public class Player : MonoBehaviour
     }
 
     IEnumerator DashCoroutine(){
-        if(Input.GetKeyDown(KeyCode.LeftShift) && isDashing == false){
+        if(Input.GetKeyDown(KeyCode.LeftShift) && isDashing == false && canDash == true){
             isDashing = true;
+            canDash = false;
             anim.SetInteger("transition",4);
             if(this.transform.rotation.y == 0f){
                 rig.AddForce(Vector2.right * 5000, ForceMode2D.Force);
@@ -130,7 +132,7 @@ public class Player : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision){
         if(collision.gameObject.layer == 8){
             isJumping = false;
-            isDashing = false;
+            canDash = true;
         }
 
         if(collision.gameObject.tag == "spike"){
