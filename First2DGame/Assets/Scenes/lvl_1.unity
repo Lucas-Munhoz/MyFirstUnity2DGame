@@ -4978,7 +4978,7 @@ GameObject:
   - component: {fileID: 1132293255}
   m_Layer: 5
   m_Name: Touch
-  m_TagString: Untagged
+  m_TagString: touchCanvas
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

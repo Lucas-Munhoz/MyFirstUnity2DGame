@@ -50,14 +50,11 @@ public class Player : MonoBehaviour
     }
 
     void Move(){
+        //GetAxis right/left, A/D and joystick
+        //float 0 to 1
+        //Edit/Project Settings/Input Manager
+        movement = Input.GetAxis("Horizontal");
 
-        if(isMobile == false){
-            //GetAxis right/left, A/D and joystick
-            //float 0 to 1
-            //Edit/Project Settings/Input Manager
-            movement = Input.GetAxis("Horizontal");
-        }
-        
         rig.velocity = new Vector2(movement * speed, rig.velocity.y);
 
         //Right

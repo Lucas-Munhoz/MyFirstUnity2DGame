@@ -7,6 +7,7 @@ TagManager:
   - wall
   - enemy
   - spike
+  - touchCanvas
   layers:
   - Default
   - TransparentFX
