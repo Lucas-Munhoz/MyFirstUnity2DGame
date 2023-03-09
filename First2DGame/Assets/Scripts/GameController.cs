@@ -14,16 +14,28 @@ public class GameController : MonoBehaviour
     private int totalCoins;
 
     private bool isPaused;
+    private bool isMobile = true;
 
     public static GameController instance;
     public GameObject pauseObj;
     public GameObject gameOverObj;
+    private GameObject touchControllers;
+
+    private Player player;
 
     //Awake is called first than Start(), VERY USEFUL
     void Awake()
     {
         //Like a constructor
         instance = this;
+
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        player.isMobile = isMobile;
+
+        if(!isMobile){
+            touchControllers = GameObject.FindGameObjectWithTag("touchController");
+            touchControllers.SetActive(false);
+        }
     }
 
     void Start(){

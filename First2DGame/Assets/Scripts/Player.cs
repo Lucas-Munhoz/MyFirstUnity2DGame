@@ -8,12 +8,18 @@ public class Player : MonoBehaviour
     private int health = 3;
     public float speed;
     public float jumpForce;
-    private float movement;
+    public float movement;
+
     private bool isJumping;
     private bool doubleJump;
     private bool isDashing;
     private bool canDash;
     private bool isShooting;
+
+    public bool isMobile;
+    public bool touchJump;
+    public bool touchDash;
+    public bool touchBow;
 
     public GameObject arrow;
     public Transform bow;
@@ -45,7 +51,10 @@ public class Player : MonoBehaviour
         //GetAxis right/left, A/D and joystick
         //float 0 to 1
         //Edit/Project Settings/Input Manager
-        movement = Input.GetAxis("Horizontal");
+        if(isMobile == false){
+            movement = Input.GetAxis("Horizontal");
+        }
+
         
         rig.velocity = new Vector2(movement * speed, rig.velocity.y);
 
@@ -72,7 +81,7 @@ public class Player : MonoBehaviour
     }
 
     void Jump(){
-        if(Input.GetButtonDown("Jump")){
+        if(Input.GetButtonDown("Jump") || touchJump){
             if(isJumping == false){
                 anim.SetInteger("transition",2);
                 rig.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
@@ -86,6 +95,7 @@ public class Player : MonoBehaviour
                     doubleJump = false;
                 }
             }
+            touchJump = false;
         }
     }
 
@@ -98,8 +108,10 @@ public class Player : MonoBehaviour
     }
 
     IEnumerator Shoot(){
-        if(Input.GetKeyDown(KeyCode.E)){
+        if(Input.GetKeyDown(KeyCode.E) || touchBow){
+            touchBow = false;
             isShooting = true;
+            canDash = false;
             anim.SetInteger("transition",3);
             GameObject Arrow = Instantiate(arrow,bow.position, bow.rotation);
             if(this.transform.rotation.y == 0f){
@@ -110,12 +122,13 @@ public class Player : MonoBehaviour
             }
             yield return new WaitForSeconds(0.2f);
             isShooting = false;
+            canDash = true;
             anim.SetInteger("transition",0);
         }
     }
 
     IEnumerator DashCoroutine(){
-        if(Input.GetKeyDown(KeyCode.LeftShift) && isDashing == false && canDash == true){
+        if((Input.GetKeyDown(KeyCode.LeftShift) || touchDash) && isDashing == false && canDash == true){
             isDashing = true;
             canDash = false;
             anim.SetInteger("transition",4);
@@ -125,18 +138,26 @@ public class Player : MonoBehaviour
                 rig.AddForce(Vector2.left * 5000, ForceMode2D.Force);
             }
             yield return new WaitForSeconds(0.35f);
+            isDashing = false;
             anim.SetInteger("transition",0);
+
+            touchDash = false;
         }
     }
 
     void OnCollisionEnter2D(Collision2D collision){
         if(collision.gameObject.layer == 8){
             isJumping = false;
-            canDash = true;
         }
 
         if(collision.gameObject.tag == "spike"){
             Damage(1);
+        }
+    }
+
+    void OnCollisionStay2D(Collision2D collision){
+        if(collision.gameObject.layer == 8){
+            canDash = true;
         }
     }
 
