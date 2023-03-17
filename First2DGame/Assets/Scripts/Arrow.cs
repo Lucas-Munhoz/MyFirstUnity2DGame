@@ -33,5 +33,9 @@ public class Arrow : MonoBehaviour
             col.GetComponent<Enemy>().Damage(damage);
             Destroy(gameObject);
         }
+        if(col.gameObject.tag == "treasure"){
+            col.GetComponent<Treasure>().Damage(damage);
+            Destroy(gameObject);
+        }
     }
 }

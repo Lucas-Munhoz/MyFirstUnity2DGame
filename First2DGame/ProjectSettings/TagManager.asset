@@ -8,6 +8,7 @@ TagManager:
   - enemy
   - spike
   - touchController
+  - treasure
   layers:
   - Default
   - TransparentFX
